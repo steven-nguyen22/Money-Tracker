@@ -1,5 +1,10 @@
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
+
+//encrypting mongodb link
+import { config } from "dotenv";
+config();
+
 import User from "./models/User";
 
 const PORT = 5000;
@@ -19,11 +24,7 @@ app.post("/users", async (req: Request, res: Response) => {
 });
 
 //connecting to mongodb cluster
-mongoose
-  .connect(
-    "mongodb+srv://scoobysteve:poopdeck2@cluster0.oxrdz7p.mongodb.net/?retryWrites=true&w=majority"
-  )
-  .then(() => {
-    console.log(`listening on port ${PORT}`);
-    app.listen(5000);
-  });
+mongoose.connect(process.env.MONGO_URL!).then(() => {
+  console.log(`listening on port ${PORT}`);
+  app.listen(5000);
+});
