@@ -8,8 +8,11 @@ config();
 
 import User from "./models/User";
 
-const PORT = 5000;
+//encrypting passwords
+const bcrypt = require("bcrypt");
+const salt = bcrypt.genSaltSync(10);
 
+const PORT = 5000;
 const app = express();
 
 app.use(
@@ -20,13 +23,18 @@ app.use(
 app.use(express.json());
 
 //API endpoint for creating users
-app.post("/users", async (req: Request, res: Response) => {
+app.post("/register", async (req: Request, res: Response) => {
   console.log(req.body);
   const newUser = new User({
     username: req.body.username,
+    password: bcrypt.hashSync(req.body.password, salt),
   });
-  const createdUser = await newUser.save();
-  res.json(createdUser);
+  try {
+    const createdUser = await newUser.save();
+    res.json(createdUser);
+  } catch (e) {
+    res.status(400).json(e);
+  }
 });
 
 //connecting to mongodb cluster
