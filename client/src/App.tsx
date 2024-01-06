@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./App.css";
+import Nav from "./Components/Nav";
 
 function App() {
   const [username, setUserName] = useState("");
@@ -19,18 +19,23 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <form onSubmit={handleCreateUser}>
-        <label htmlFor="user-title">User</label>
-        <input
-          id="user-title"
-          value={username}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setUserName(e.target.value);
-          }}
-        />
-        <button>Create User</button>
-      </form>
+    <div className="bg-green-500">
+      <div>
+        <Nav />
+      </div>
+      <div>
+        <form onSubmit={handleCreateUser}>
+          <label htmlFor="user-title">User</label>
+          <input
+            id="user-title"
+            value={username}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setUserName(e.target.value);
+            }}
+          />
+          <button>Create User</button>
+        </form>
+      </div>
     </div>
   );
 }
