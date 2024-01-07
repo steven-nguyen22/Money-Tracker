@@ -9,6 +9,7 @@ export default {
       green4: "#a3b18a",
       gray1: "#dad7cd",
       black: "#000000",
+      white: "#FFFFFF",
     },
     extend: {},
   },
