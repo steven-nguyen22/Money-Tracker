@@ -8,6 +8,7 @@ export default {
       green3: "#588157",
       green4: "#a3b18a",
       gray1: "#dad7cd",
+      black: "#000000",
     },
     extend: {},
   },
