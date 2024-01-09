@@ -7,6 +7,7 @@ import { config } from "dotenv";
 config();
 
 import User from "./models/User";
+import Item from "./models/Item";
 
 //encrypting passwords
 const bcrypt = require("bcrypt");
@@ -80,6 +81,28 @@ app.get("/profile", (req: Request, res: Response) => {
 //API endpoint for logging out
 app.post("/logout", (req: Request, res: Response) => {
   res.cookie("token", "").json("ok");
+});
+
+//API endpoint for posting items
+app.post("/postItem", async (req: Request, res: Response) => {
+  console.log(req.body);
+
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err: Error, info: Response) => {
+    if (err) throw err;
+    console.log(info);
+    const newItem = new Item({
+      name: req.body.name,
+      price: req.body.price,
+      category: req.body.category,
+    });
+    try {
+      const createdItem = await newItem.save();
+      res.json(createdItem);
+    } catch (e) {
+      res.status(400).json(e);
+    }
+  });
 });
 
 //connecting to mongodb cluster
