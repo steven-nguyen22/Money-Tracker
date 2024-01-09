@@ -105,6 +105,13 @@ app.post("/postItem", async (req: Request, res: Response) => {
   });
 });
 
+//API endpoint for getting items
+//add filter in find later $where: userID
+app.get("/getItem", async (req: Request, res: Response) => {
+  const items = await Item.find();
+  res.json(items);
+});
+
 //connecting to mongodb cluster
 mongoose.connect(process.env.MONGO_URL!).then(() => {
   console.log(`listening on port ${PORT}`);

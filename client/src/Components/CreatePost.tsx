@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ItemCards from "./ItemCards";
 
 function CreatePost() {
   const [name, setName] = useState("");
@@ -27,7 +28,10 @@ function CreatePost() {
   }
 
   return (
-    <div>
+    <div className="">
+      <div>
+        <ItemCards />
+      </div>
       <form onSubmit={handleCreateUser}>
         <label htmlFor="user-title">Post your Item</label>
         <input
