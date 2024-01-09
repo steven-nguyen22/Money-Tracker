@@ -39,7 +39,7 @@ function Nav() {
         <ul className="text-center text-xl p-20">
           <Link to="/login">
             <li className="my-4 py-4 border-b border-gray1 hover:bg-green1 hover:rounded">
-              Login
+              Log in
             </li>
           </Link>
           <Link to="/register">
@@ -86,7 +86,7 @@ function Nav() {
                 <ul className="flex gap-8 mr-16 text-[18px]">
                   <Link to="/login">
                     <li className="hover:text-green1 transition border-b-2 border-gray1 hover:border-green1 cursor-pointer">
-                      Login
+                      Log in
                     </li>
                   </Link>
                   <Link to="/register">

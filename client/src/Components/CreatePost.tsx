@@ -55,7 +55,7 @@ function CreatePost() {
 
   return (
     <div className="">
-      <div>
+      <div className="mt-8 ml-10 grid lg:grid-cols-4 gap-10">
         {items.map((items) => (
           <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">

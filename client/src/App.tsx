@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Nav from "./Components/Nav";
 import { UserContext } from "./UserContext";
 import CreatePost from "./Components/CreatePost";
+import WelcomePage from "./Components/WelcomePage";
 
 function App() {
   const { userInfo, setUserInfo } = useContext(UserContext);
@@ -28,7 +29,11 @@ function App() {
           <CreatePost />
         </div>
       )}
-      {!username && <h1>Welcome Page</h1>}
+      {!username && (
+        <div className="bg-test bg-cover bg-no-repeat bg-center">
+          <WelcomePage />
+        </div>
+      )}
     </div>
   );
 }
