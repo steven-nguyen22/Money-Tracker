@@ -112,6 +112,13 @@ app.get("/getItem", async (req: Request, res: Response) => {
   res.json(items);
 });
 
+//API endpoint for deleting items
+app.delete("/deleteItem/:itemId", async (req: Request, res: Response) => {
+  const itemId = req.params.itemId;
+  const item = await Item.findByIdAndDelete(itemId);
+  res.json(item);
+});
+
 //connecting to mongodb cluster
 mongoose.connect(process.env.MONGO_URL!).then(() => {
   console.log(`listening on port ${PORT}`);
