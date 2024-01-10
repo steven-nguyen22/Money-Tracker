@@ -91,6 +91,7 @@ app.post("/postItem", async (req: Request, res: Response) => {
   jwt.verify(token, secret, {}, async (err: Error, info: Response) => {
     if (err) throw err;
     console.log(info);
+
     const newItem = new Item({
       name: req.body.name,
       price: req.body.price,

@@ -16,7 +16,7 @@ export default {
         display: "Oswald, ui-serif", // Adds a new `font-display` class
       },
       backgroundImage: {
-        test: "url('/src/assets/background1.svg')",
+        background1: "url('/src/assets/background1.svg')",
       },
     },
   },

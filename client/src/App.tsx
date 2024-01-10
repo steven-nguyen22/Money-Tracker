@@ -25,12 +25,12 @@ function App() {
         <Nav />
       </div>
       {username && (
-        <div>
+        <div className="bg-background1 bg-cover bg-no-repeat bg-center">
           <CreatePost />
         </div>
       )}
       {!username && (
-        <div className="bg-test bg-cover bg-no-repeat bg-center">
+        <div className="bg-background1 bg-cover bg-no-repeat bg-center">
           <WelcomePage />
         </div>
       )}
