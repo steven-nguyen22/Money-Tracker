@@ -7,6 +7,8 @@ type TItem = {
   _id: string;
   price: number;
   category: string;
+  author: string;
+  authorName: string;
 };
 
 function CreatePost() {
@@ -39,7 +41,9 @@ function CreatePost() {
 
   useEffect(() => {
     async function fetchItems() {
-      const response = await fetch("http://localhost:5000/getItem");
+      const response = await fetch("http://localhost:5000/getItem", {
+        credentials: "include",
+      });
       const newItems = await response.json();
       setItems(newItems);
     }
@@ -77,6 +81,9 @@ function CreatePost() {
               </p>
               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 {items.category}
+              </p>
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                Author Name: {items.authorName}
               </p>
               <button
                 onClick={() => handleDeleteItem(items._id)}

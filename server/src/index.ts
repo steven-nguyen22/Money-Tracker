@@ -102,6 +102,7 @@ app.post("/postItem", async (req: Request, res: Response) => {
       price: req.body.price,
       category: req.body.category,
       author: decoded.id,
+      authorName: decoded.username,
     });
     try {
       const createdItem = await newItem.save();
@@ -113,9 +114,15 @@ app.post("/postItem", async (req: Request, res: Response) => {
 });
 
 //API endpoint for getting items
-//add filter in find later $where: userID
+//add filter in find later {where: userID}
 app.get("/getItem", async (req: Request, res: Response) => {
-  const items = await Item.find();
+  const { token } = req.cookies;
+
+  var decoded = jwt.verify(token, secret);
+
+  console.log(decoded.id);
+
+  const items = await Item.find({ author: decoded.id });
   res.json(items);
 });
 

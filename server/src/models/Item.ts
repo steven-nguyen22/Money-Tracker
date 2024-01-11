@@ -8,6 +8,7 @@ const ItemSchema = new Schema(
     price: { type: Number, required: true },
     category: { type: String, required: true },
     author: { type: Schema.Types.ObjectId, ref: "User" },
+    authorName: { type: String },
   },
   {
     timestamps: true,
