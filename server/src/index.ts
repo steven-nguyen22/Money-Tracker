@@ -88,6 +88,11 @@ app.post("/postItem", async (req: Request, res: Response) => {
   console.log(req.body);
 
   const { token } = req.cookies;
+
+  var decoded = jwt.verify(token, secret);
+
+  console.log(decoded.id);
+
   jwt.verify(token, secret, {}, async (err: Error, info: Response) => {
     if (err) throw err;
     console.log(info);
@@ -96,6 +101,7 @@ app.post("/postItem", async (req: Request, res: Response) => {
       name: req.body.name,
       price: req.body.price,
       category: req.body.category,
+      author: decoded.id,
     });
     try {
       const createdItem = await newItem.save();

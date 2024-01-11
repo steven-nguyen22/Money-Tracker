@@ -29,7 +29,7 @@ function AnalyticsPage() {
         <Nav />
       </div>
 
-      <div className="flex flex-row justify-center items-center">
+      <div className="mt-5 flex flex-row justify-center items-center">
         <div className="">
           <Doughnut data={data} options={options} />
         </div>

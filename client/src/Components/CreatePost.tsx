@@ -144,7 +144,13 @@ function CreatePost() {
                 }}
               >
                 <option value="Food">Food</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Housing">Housing</option>
                 <option value="Travel">Travel</option>
+                <option value="Medical">Medical</option>
+                <option value="Subscriptions">Subscriptions</option>
+                <option value="Miscellaneous">Miscellaneous</option>
               </select>
             </div>
 
