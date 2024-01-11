@@ -67,14 +67,20 @@ function Nav() {
           <>
             <div className="lg:flex md:flex lg:flex-1 items center justify-end font-normal hidden">
               <div className="flex-10">
-                <div className="flex gap-8 mr-16 text-[18px]">
+                <ul className="flex gap-8 mr-16 text-[18px]">
+                  <Link to="/analytics">
+                    <li className="hover:text-green1 transition border-b-2 border-gray1 hover:border-green1 cursor-pointer">
+                      Analytics
+                    </li>
+                  </Link>
+
                   <a
                     className="hover:text-green1 transition border-b-2 border-gray1 hover:border-green1 cursor-pointer"
                     onClick={logout}
                   >
                     Logout
                   </a>
-                </div>
+                </ul>
               </div>
             </div>
           </>
