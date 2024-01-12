@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
-import ItemCards from "./ItemCards";
+import Pagination from "./Pagination";
 
 type TItem = {
   name: string;
@@ -16,6 +16,9 @@ function CreatePost() {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("Food");
   const [items, setItems] = useState<TItem[]>([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(8);
 
   async function handleCreateItem(e: React.FormEvent) {
     e.preventDefault();
@@ -55,18 +58,22 @@ function CreatePost() {
       method: "DELETE",
     });
     //allows items to refresh on screen after deleting without having to reload page
-    setItems(items.filter((item) => item._id !== itemId));
+    items.filter((item) => item._id !== itemId);
   }
+
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage;
+  const currentItems = items.slice(firstPostIndex, lastPostIndex);
 
   return (
     <div className="relative w-full h-screen mx-auto">
       <div className="mt-8 ml-10 grid lg:grid-cols-4 gap-10">
-        {items.map((items) => (
+        {currentItems.map((items) => (
           <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
               <img
                 className="rounded-t-lg"
-                src="/docs/images/blog/image-1.jpg"
+                src="client\src\assets\food.png"
                 alt=""
               />
             </a>
@@ -97,6 +104,14 @@ function CreatePost() {
             </div>
           </div>
         ))}
+      </div>
+      <div>
+        <Pagination
+          totalPosts={items.length}
+          postsPerPage={postsPerPage}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       </div>
 
       <div className="mt-10 flex justify-center items-center">
