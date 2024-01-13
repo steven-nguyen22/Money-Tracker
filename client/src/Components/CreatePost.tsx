@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
 import Pagination from "./Pagination";
+import { format } from "date-fns";
+import { IoFastFoodOutline } from "react-icons/io5";
+import { GiClothes } from "react-icons/gi";
+import { FaTheaterMasks } from "react-icons/fa";
+import { GiHouse } from "react-icons/gi";
+import { GiCommercialAirplane } from "react-icons/gi";
+import { FaBriefcaseMedical } from "react-icons/fa6";
+import { RiNetflixFill } from "react-icons/ri";
+import { MdMiscellaneousServices } from "react-icons/md";
 
 type TItem = {
   name: string;
@@ -9,6 +18,7 @@ type TItem = {
   category: string;
   author: string;
   authorName: string;
+  createdAt: string;
 };
 
 function CreatePost() {
@@ -69,14 +79,7 @@ function CreatePost() {
     <div className="relative w-full h-screen mx-auto">
       <div className="mt-8 ml-10 grid lg:grid-cols-4 gap-10">
         {currentItems.map((items) => (
-          <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-              <img
-                className="rounded-t-lg"
-                src="client\src\assets\food.png"
-                alt=""
-              />
-            </a>
+          <div className="max-w-sm grid grid-cols-2 gap-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div className="p-5">
               <a href="#">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -90,7 +93,7 @@ function CreatePost() {
                 {items.category}
               </p>
               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                Author Name: {items.authorName}
+                {format(new Date(items.createdAt), "MMM d, yyyy hh:mm aaaa")}
               </p>
               <button
                 onClick={() => handleDeleteItem(items._id)}
@@ -102,9 +105,36 @@ function CreatePost() {
                 </div>
               </button>
             </div>
+            <div className="col-span-1 h-30 flex items-center justify-center">
+              {items.category == "Food" ? (
+                <IoFastFoodOutline className="h-24 w-24" />
+              ) : null}
+              {items.category == "Clothing" ? (
+                <GiClothes className="h-24 w-24" />
+              ) : null}
+              {items.category == "Entertainment" ? (
+                <FaTheaterMasks className="h-24 w-24" />
+              ) : null}
+              {items.category == "Housing" ? (
+                <GiHouse className="h-24 w-24" />
+              ) : null}
+              {items.category == "Travel" ? (
+                <GiCommercialAirplane className="h-24 w-24" />
+              ) : null}
+              {items.category == "Medical" ? (
+                <FaBriefcaseMedical className="h-24 w-24" />
+              ) : null}
+              {items.category == "Subscriptions" ? (
+                <RiNetflixFill className="h-24 w-24" />
+              ) : null}
+              {items.category == "Miscellaneous" ? (
+                <MdMiscellaneousServices className="h-24 w-24" />
+              ) : null}
+            </div>
           </div>
         ))}
       </div>
+
       <div>
         <Pagination
           totalPosts={items.length}

@@ -10,8 +10,6 @@ const Pagination = ({
     pages.push(i);
   }
 
-  console.log(currentPage);
-
   let backArrowDisable = false;
   let nextArrowDisable = false;
 
