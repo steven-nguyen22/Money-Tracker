@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Nav from "./Nav";
+import { motion } from "framer-motion";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -86,12 +87,14 @@ function Register() {
             </div>
 
             <div>
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-green4 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-green1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green4"
               >
                 Register
-              </button>
+              </motion.button>
             </div>
           </form>
         </div>

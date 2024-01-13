@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import Nav from "./Nav";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
+import { motion } from "framer-motion";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -98,12 +99,14 @@ function Login() {
             </div>
 
             <div>
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-green4 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-green1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green4"
               >
                 Login
-              </button>
+              </motion.button>
             </div>
           </form>
         </div>
