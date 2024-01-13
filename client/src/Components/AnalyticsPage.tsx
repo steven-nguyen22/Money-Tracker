@@ -36,6 +36,7 @@ function AnalyticsPage() {
   let medicalTotal = 0;
   let subTotal = 0;
   let miscTotal = 0;
+  let moneyEarnedTotal = 0;
 
   items.map((items) => {
     if (items.category == "Food") {
@@ -62,6 +63,9 @@ function AnalyticsPage() {
     if (items.category == "Miscellaneous") {
       miscTotal += items.price;
     }
+    if (items.category == "Money Earned") {
+      moneyEarnedTotal += items.price;
+    }
   });
 
   const data = {
@@ -74,6 +78,7 @@ function AnalyticsPage() {
       "Medical",
       "Subscriptions",
       "Miscellaneous",
+      "Money Earned",
     ],
     datasets: [
       {
@@ -87,6 +92,7 @@ function AnalyticsPage() {
           medicalTotal,
           subTotal,
           miscTotal,
+          moneyEarnedTotal,
         ],
         backgroundColor: [
           "#14281D",
@@ -97,6 +103,7 @@ function AnalyticsPage() {
           "yellow",
           "purple",
           "#adb5bd",
+          "black",
         ],
         hoverOffset: 4,
       },
@@ -106,27 +113,33 @@ function AnalyticsPage() {
   const options = {};
 
   return (
-    <div>
-      <div>
+    <section className="relative w-full h-screen mx-auto">
+      <div className="bg-background1 bg-cover bg-no-repeat bg-center">
         <Nav />
-      </div>
 
-      <div>
-        {items.map((items) => (
-          <div>
-            <label>{items.category}</label>
-            <label> {items.name}</label>
-            <label> {items.price}</label>
+        <div>
+          {items.map((items) => (
+            <div>
+              <label>{items.category}</label>
+              <label> {items.name}</label>
+              <label> {items.price}</label>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-40">
+          <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+            testttt
+          </h1>
+        </div>
+
+        <div className="mt-5 flex flex-row justify-center items-center">
+          <div className="">
+            <Doughnut data={data} options={options} />
           </div>
-        ))}
-      </div>
-
-      <div className="mt-5 flex flex-row justify-center items-center">
-        <div className="">
-          <Doughnut data={data} options={options} />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

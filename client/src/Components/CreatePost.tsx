@@ -10,6 +10,7 @@ import { GiCommercialAirplane } from "react-icons/gi";
 import { FaBriefcaseMedical } from "react-icons/fa6";
 import { RiNetflixFill } from "react-icons/ri";
 import { MdMiscellaneousServices } from "react-icons/md";
+import { FcMoneyTransfer } from "react-icons/fc";
 
 type TItem = {
   name: string;
@@ -130,6 +131,9 @@ function CreatePost() {
               {items.category == "Miscellaneous" ? (
                 <MdMiscellaneousServices className="h-24 w-24" />
               ) : null}
+              {items.category == "Money Earned" ? (
+                <FcMoneyTransfer className="h-24 w-24" />
+              ) : null}
             </div>
           </div>
         ))}
@@ -203,6 +207,7 @@ function CreatePost() {
                 <option value="Medical">Medical</option>
                 <option value="Subscriptions">Subscriptions</option>
                 <option value="Miscellaneous">Miscellaneous</option>
+                <option value="Money Earned">Money Earned</option>
               </select>
             </div>
 
