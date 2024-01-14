@@ -33,6 +33,29 @@ function Login() {
     }
   }
 
+  async function handleGuest(e: React.MouseEvent<HTMLElement>) {
+    e.preventDefault();
+    const response = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      body: JSON.stringify({
+        username: "1",
+        password: "1",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    if (response.ok) {
+      response.json().then((userInfo) => {
+        setUserInfo(userInfo);
+        setRedirect(true);
+      });
+    } else {
+      alert("Wrong credentials");
+    }
+  }
+
   if (redirect) {
     return <Navigate to={"/"} />;
   }
@@ -108,6 +131,15 @@ function Login() {
                 Login
               </motion.button>
             </div>
+            <p className="text-sm font-light text-black">
+              Don't want to make an account?{" "}
+              <button
+                onClick={handleGuest}
+                className="font-medium text-blue hover:underline"
+              >
+                Login as guest
+              </button>
+            </p>
           </form>
         </div>
       </div>

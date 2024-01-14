@@ -11,6 +11,7 @@ import { FaBriefcaseMedical } from "react-icons/fa6";
 import { RiNetflixFill } from "react-icons/ri";
 import { MdMiscellaneousServices } from "react-icons/md";
 import { FcMoneyTransfer } from "react-icons/fc";
+import Nav from "./Nav";
 
 type TItem = {
   name: string;
@@ -20,12 +21,14 @@ type TItem = {
   author: string;
   authorName: string;
   createdAt: string;
+  date: string;
 };
 
 function CreatePost() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("Food");
+  const [date, setDate] = useState("");
   const [items, setItems] = useState<TItem[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +42,7 @@ function CreatePost() {
         name,
         price,
         category,
+        date,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -78,6 +82,7 @@ function CreatePost() {
 
   return (
     <div className="relative w-full h-screen mx-auto">
+      <Nav />
       <div className="mt-8 ml-10 grid lg:grid-cols-4 gap-10">
         {currentItems.map((items) => (
           <div className="max-w-sm grid grid-cols-2 gap-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -94,7 +99,7 @@ function CreatePost() {
                 {items.category}
               </p>
               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                {format(new Date(items.createdAt), "MMM d, yyyy hh:mm aaaa")}
+                {format(new Date(items.date), "MMM d, yyyy")}
               </p>
               <button
                 onClick={() => handleDeleteItem(items._id)}
@@ -188,7 +193,7 @@ function CreatePost() {
               />
             </div>
 
-            <div className="px-10">
+            <div className="mb-5 px-10">
               <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Select a category
               </label>
@@ -211,8 +216,21 @@ function CreatePost() {
               </select>
             </div>
 
+            <div className="px-10">
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Date
+              </label>
+              <input
+                type="date"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setDate(e.target.value);
+                }}
+              ></input>
+            </div>
+
             <div className="pb-5 flex flex-row justify-center items-center">
-              <button className="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <button className="mt-3 text-white bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Post
               </button>
             </div>

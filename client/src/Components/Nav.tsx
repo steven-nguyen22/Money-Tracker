@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import { CiMenuFries } from "react-icons/ci";
 import { UserContext } from "../UserContext";
 
 function Nav() {
   const [click, setClick] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   const { userInfo, setUserInfo } = useContext(UserContext);
 
@@ -29,9 +30,14 @@ function Nav() {
       method: "POST",
     });
     setUserInfo(null);
+    setRedirect(true);
   }
 
   const username = userInfo?.username;
+
+  if (redirect) {
+    return <Navigate to={"/"} />;
+  }
 
   const content = (
     <>

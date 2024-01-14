@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import Nav from "./Components/Nav";
 import { UserContext } from "./UserContext";
 import CreatePost from "./Components/CreatePost";
 import WelcomePage from "./Components/WelcomePage";
@@ -21,9 +20,6 @@ function App() {
 
   return (
     <div>
-      <div>
-        <Nav />
-      </div>
       {username && (
         <div className="bg-background1 bg-cover bg-no-repeat bg-center">
           <CreatePost />

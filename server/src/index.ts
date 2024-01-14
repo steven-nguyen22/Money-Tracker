@@ -103,6 +103,7 @@ app.post("/postItem", async (req: Request, res: Response) => {
       category: req.body.category,
       author: decoded.id,
       authorName: decoded.username,
+      date: req.body.date,
     });
     try {
       const createdItem = await newItem.save();
@@ -114,13 +115,10 @@ app.post("/postItem", async (req: Request, res: Response) => {
 });
 
 //API endpoint for getting items
-//add filter in find later {where: userID}
 app.get("/getItem", async (req: Request, res: Response) => {
   const { token } = req.cookies;
 
   var decoded = jwt.verify(token, secret);
-
-  console.log(decoded.id);
 
   const items = await Item.find({ author: decoded.id });
   res.json(items);
@@ -131,6 +129,104 @@ app.delete("/deleteItem/:itemId", async (req: Request, res: Response) => {
   const itemId = req.params.itemId;
   const item = await Item.findByIdAndDelete(itemId);
   res.json(item);
+});
+
+//API endpoint for getting items by current day
+app.get("/getItemDay", async (req: Request, res: Response) => {
+  const { token } = req.cookies;
+  console.log("testing getItemDay");
+
+  var today = new Date();
+  var month = today.getMonth() + 1;
+  var day = today.getDate();
+  var myMonth = "";
+  var myDay = "";
+
+  if (month < 10) {
+    myMonth = "0" + month;
+  } else {
+    myMonth = month.toString();
+  }
+
+  if (day < 10) {
+    myDay = "0" + day;
+  } else {
+    myDay = day.toString();
+  }
+
+  var todayDate =
+    today.getFullYear() + "-" + myMonth + "-" + myDay + "T00:00:00.000+00:00";
+
+  var decoded = jwt.verify(token, secret);
+
+  const items = await Item.find({
+    author: decoded.id,
+    date: todayDate,
+  });
+  res.json(items);
+});
+
+//API endpoint for getting items by current week
+app.get("/getItemWeek", async (req: Request, res: Response) => {
+  const { token } = req.cookies;
+  console.log("testing week");
+
+  var today = new Date();
+  var first = today.getDate() - today.getDay(); // Sunday beginning of the week
+  var last = first + 6; // Saturday end of the week
+
+  var firstDay = new Date(today.setDate(first));
+  var lastDay = new Date(today.setDate(last));
+
+  console.log(firstDay);
+  console.log(lastDay);
+
+  var decoded = jwt.verify(token, secret);
+
+  const items = await Item.find({
+    author: decoded.id,
+    date: { $gte: firstDay, $lte: lastDay },
+  });
+  res.json(items);
+});
+
+//API endpoint for getting items by current month
+app.get("/getItemMonth", async (req: Request, res: Response) => {
+  const { token } = req.cookies;
+  console.log("testing month");
+
+  var today = new Date();
+  var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+  var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  var decoded = jwt.verify(token, secret);
+
+  const items = await Item.find({
+    author: decoded.id,
+    date: { $gte: firstDay, $lte: lastDay },
+  });
+  res.json(items);
+});
+
+//API endpoint for getting items by current year
+app.get("/getItemYear", async (req: Request, res: Response) => {
+  const { token } = req.cookies;
+  console.log("testing year");
+
+  var today = new Date();
+  var firstDay = new Date(today.getFullYear(), 0, 1);
+  var lastDay = new Date(today.getFullYear() + 1, 0, 0);
+
+  console.log(firstDay);
+  console.log(lastDay);
+
+  var decoded = jwt.verify(token, secret);
+
+  const items = await Item.find({
+    author: decoded.id,
+    date: { $gte: firstDay, $lte: lastDay },
+  });
+  res.json(items);
 });
 
 //connecting to mongodb cluster

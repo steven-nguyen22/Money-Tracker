@@ -11,6 +11,7 @@ export default {
         gray1: "#dad7cd",
         black: "#000000",
         white: "#FFFFFF",
+        blue: "#0000FF",
       },
       fontFamily: {
         display: "Oswald, ui-serif", // Adds a new `font-display` class
