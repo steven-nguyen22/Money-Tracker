@@ -21,8 +21,9 @@ function App() {
   return (
     <div>
       {username && (
-        <div className="bg-background1 bg-cover bg-no-repeat bg-center">
+        <div className="h-screen bg-background1 bg-cover bg-no-repeat bg-center">
           <CreatePost />
+          <div className="h-60 bg-backgroundExtend"></div>
         </div>
       )}
       {!username && (

@@ -98,6 +98,10 @@ function AnalyticsPage() {
   let subTotal = 0;
   let miscTotal = 0;
   let moneyEarnedTotal = 0;
+  let totalSpent = 0;
+  let totalBalance = 0;
+  let negative = "";
+  let color = "";
 
   items.map((items) => {
     if (items.category == "Food") {
@@ -127,7 +131,29 @@ function AnalyticsPage() {
     if (items.category == "Money Earned") {
       moneyEarnedTotal += items.price;
     }
+
+    totalSpent =
+      foodTotal +
+      clothingTotal +
+      entertainmentTotal +
+      housingTotal +
+      travelTotal +
+      medicalTotal +
+      subTotal +
+      miscTotal;
+    totalBalance = moneyEarnedTotal - totalSpent;
   });
+
+  if (totalBalance < 0) {
+    totalBalance = totalBalance * -1;
+    negative = "-";
+  }
+
+  if (negative == "") {
+    color = "text-[color:green]";
+  } else {
+    color = "text-[color:red]";
+  }
 
   const data = {
     labels: [
@@ -143,7 +169,7 @@ function AnalyticsPage() {
     ],
     datasets: [
       {
-        label: "My First Dataset",
+        label: "Distrubution by category",
         data: [
           foodTotal,
           clothingTotal,
@@ -156,15 +182,15 @@ function AnalyticsPage() {
           moneyEarnedTotal,
         ],
         backgroundColor: [
-          "#14281D",
-          "green",
-          "blue",
-          "red",
-          "orange",
-          "yellow",
-          "purple",
-          "#adb5bd",
-          "black",
+          "#ad1457",
+          "#f44336",
+          "#ff9800",
+          "#ffc107",
+          "#8bc34a",
+          "#009688",
+          "#1565c0",
+          "#448aff",
+          "#004b23",
         ],
         hoverOffset: 4,
       },
@@ -177,7 +203,140 @@ function AnalyticsPage() {
     <section className="relative w-full h-screen mx-auto">
       <div className="bg-background1 bg-cover bg-no-repeat bg-center">
         <Nav />
-        <div className="w-full h-screen grid grid-cols-2">
+        <div className="w-full h-screen grid grid-rows-3 grid-flow-col gap-4">
+          <div className="row-span-2 ml-12">
+            <motion.nav
+              initial={false}
+              animate={isOpen ? "open" : "closed"}
+              className="h-100 w-80" //check the h-100 to try to make menu height bigger
+            >
+              <motion.button
+                className="bg-purple-500 rounded-xl p-8 text-left w-80 mb-2.5 mt-2.5 flex justify-between items-center"
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                Menu
+                <motion.div
+                  className="inline"
+                  variants={{
+                    open: { rotate: 180 },
+                    closed: { rotate: 0 },
+                  }}
+                  transition={{ duration: 0.2 }}
+                  style={{ originY: 0.55 }}
+                >
+                  <svg width="15" height="15" viewBox="0 0 20 20">
+                    <path d="M0 7 L 20 7 L 10 16" />
+                  </svg>
+                </motion.div>
+              </motion.button>
+              <motion.ul
+                className="h-100 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 flex flex-col gap-2.5"
+                variants={{
+                  open: {
+                    clipPath: "inset(0% 0% 0% 0% round 10px)",
+                    transition: {
+                      type: "spring",
+                      bounce: 0,
+                      duration: 0.7,
+                      delayChildren: 0.3,
+                      staggerChildren: 0.05,
+                    },
+                  },
+                  closed: {
+                    clipPath: "inset(10% 50% 90% 50% round 10px)",
+                    transition: {
+                      type: "spring",
+                      bounce: 0,
+                      duration: 0.3,
+                    },
+                  },
+                }}
+                style={{ pointerEvents: isOpen ? "auto" : "none" }}
+              >
+                <li className="block m-0 padding-2.5 ml-2.5">
+                  <motion.button
+                    onClick={handleTimeDay}
+                    variants={itemVariants}
+                  >
+                    Day
+                  </motion.button>
+                </li>
+                <li className="block m-0 padding-2.5 ml-2.5">
+                  <motion.button
+                    onClick={handleTimeWeek}
+                    variants={itemVariants}
+                  >
+                    Week
+                  </motion.button>
+                </li>
+                <li className="block m-0 padding-2.5 ml-2.5">
+                  <motion.button
+                    onClick={handleTimeMonth}
+                    variants={itemVariants}
+                  >
+                    Month
+                  </motion.button>
+                </li>
+                <li className="block m-0 padding-2.5 ml-2.5">
+                  <motion.button
+                    onClick={handleTimeYear}
+                    variants={itemVariants}
+                  >
+                    Year
+                  </motion.button>
+                </li>
+                <li className="block m-0 padding-2.5 ml-2.5">
+                  <motion.button
+                    onClick={handleTimeAll}
+                    variants={itemVariants}
+                  >
+                    All
+                  </motion.button>
+                </li>
+                <li className="block m-0 padding-2.5 ml-2.5">
+                  <motion.button variants={itemVariants}>
+                    Interval
+                  </motion.button>
+                </li>
+              </motion.ul>
+            </motion.nav>
+          </div>
+          <div className="row-span-1">
+            <div className="ml-12 py-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <p className="ml-2 mb-3 pt-2 font-normal ">
+                <label>Total Money Earned: </label>{" "}
+                <label className="text-[color:green]">
+                  ${moneyEarnedTotal}
+                </label>
+              </p>
+              <p className="ml-2 font-normal mb-2">
+                <label>Total Money Spent: </label>{" "}
+                <label className="text-[color:red]">${totalSpent}</label>
+              </p>
+              <hr className="mb-2 bg-black" />
+              <p className="ml-2 mb-3 font-normal ">
+                <label>Total Money Balance: </label>{" "}
+                <label className={color}>
+                  {negative}${totalBalance}
+                </label>
+              </p>
+            </div>
+          </div>
+          <div className="row-span-2 col-span-2">
+            <Doughnut data={data} options={options} />
+          </div>
+          <div className="col-span-2">03</div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default AnalyticsPage;
+
+/*
+  <div className="w-full h-screen grid grid-cols-2">
           <div>
             <motion.nav
               initial={false}
@@ -284,39 +443,19 @@ function AnalyticsPage() {
             />
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-export default AnalyticsPage;
-
-/*
-  <section className="relative w-full h-screen mx-auto">
-      <div className="bg-background1 bg-cover bg-no-repeat bg-center">
-        <Nav />
 
         <div>
-          {items.map((items) => (
-            <div>
-              <label>{items.category}</label>
-              <label> {items.name}</label>
-              <label> {items.price}</label>
-            </div>
-          ))}
+          <label>Money earned: {moneyEarnedTotal}</label>
+          <label>Money spent: {totalSpent}</label>
+          <label>Money balance: {totalBalance}</label>
         </div>
+*/
 
-        <div className="mt-40">
-          <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-            testttt
-          </h1>
+/*
+<div className="w-full h-screen grid grid-rows-3 grid-flow-col gap-4">
+          <div className="row-span-2">01</div>
+          <div className="row-span-1">temp</div>
+          <div className="row-span-2 col-span-2">02</div>
+          <div className="col-span-2">03</div>
         </div>
-
-        <div className="mt-5 flex flex-row justify-center items-center">
-          <div className="">
-            <Doughnut data={data} options={options} />
-          </div>
-        </div>
-      </div>
-    </section>
 */

@@ -117,7 +117,7 @@ function WelcomePage() {
           </p>
           <p>
             This budgeting app allows for a simple and quick way to remember the
-            items you bought throughout the course of a month.
+            items you bought throughout your day-to-day life.
           </p>
           <Link to="/register">
             <motion.button
