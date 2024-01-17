@@ -11,8 +11,11 @@ export default {
         gray1: "#dad7cd",
         black: "#000000",
         white: "#FFFFFF",
-        blue: "#0000FF",
+
         backgroundExtend: "#346A4B",
+        overlay: "#313131",
+        tbsgreen: "#004236",
+        indiankhaki: "#c49f84",
       },
       fontFamily: {
         display: "Oswald, ui-serif", // Adds a new `font-display` class

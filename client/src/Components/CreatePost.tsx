@@ -28,7 +28,7 @@ function CreatePost() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("Food");
-  const [date, setDate] = useState("");
+  let [date, setDate] = useState("");
   const [items, setItems] = useState<TItem[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,6 +36,7 @@ function CreatePost() {
 
   async function handleCreateItem(e: React.FormEvent) {
     e.preventDefault();
+    date = date + "T12:00:00.000+00:00";
     const response = await fetch("http://localhost:5000/postItem", {
       method: "POST",
       body: JSON.stringify({
@@ -228,7 +229,7 @@ function CreatePost() {
             </div>
 
             <div className="pb-5 flex flex-row justify-center items-center">
-              <button className="mt-3 text-white bg-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <button className="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Post
               </button>
             </div>

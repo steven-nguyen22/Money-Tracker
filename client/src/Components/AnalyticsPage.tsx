@@ -2,7 +2,12 @@ import Nav from "./Nav";
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
 import { motion, Variants } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Doughnut } from "react-chartjs-2";
+import { Doughnut, Line } from "react-chartjs-2";
+import LineChart from "./lineChart";
+import { DateRangePicker } from "rsuite";
+import "rsuite/dist/rsuite-no-reset.min.css";
+import { format } from "date-fns";
+import MyModal from "./MyModal";
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
@@ -27,6 +32,13 @@ const itemVariants: Variants = {
 function AnalyticsPage() {
   const [items, setItems] = useState<TItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [dateRange, setDateRange] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const handleOnClose = () => setShowModal(false);
+  let [dayOne, setDayOne] = useState("All");
+  let [dayTwo, setDayTwo] = useState("All");
+
+  console.log("date range", dateRange);
 
   useEffect(() => {
     async function fetchItems() {
@@ -47,6 +59,8 @@ function AnalyticsPage() {
     const newItems = await response.json();
     console.log(newItems);
     setItems(newItems);
+    setDayOne(newItems[newItems.length - 1]);
+    setDayTwo(newItems[newItems.length - 1]);
   }
 
   async function handleTimeWeek(e: React.MouseEvent<HTMLElement>) {
@@ -57,6 +71,8 @@ function AnalyticsPage() {
     const newItems = await response.json();
     console.log(newItems);
     setItems(newItems);
+    setDayOne(newItems[newItems.length - 2]);
+    setDayTwo(newItems[newItems.length - 1]);
   }
 
   async function handleTimeMonth(e: React.MouseEvent<HTMLElement>) {
@@ -66,6 +82,8 @@ function AnalyticsPage() {
     });
     const newItems = await response.json();
     console.log(newItems);
+    setDayOne(newItems[newItems.length - 2]);
+    setDayTwo(newItems[newItems.length - 1]);
     setItems(newItems);
   }
 
@@ -76,6 +94,8 @@ function AnalyticsPage() {
     });
     const newItems = await response.json();
     console.log(newItems);
+    setDayOne(newItems[newItems.length - 2]);
+    setDayTwo(newItems[newItems.length - 1]);
     setItems(newItems);
   }
 
@@ -86,6 +106,31 @@ function AnalyticsPage() {
     });
     const newItems = await response.json();
     console.log(newItems);
+    setItems(newItems);
+    setDayOne("All");
+    setDayTwo("All");
+  }
+
+  async function handleTimeInterval(e: React.MouseEvent<HTMLElement>) {
+    e.preventDefault();
+    let start = dateRange[0];
+    let end = dateRange[1];
+
+    const response = await fetch("http://localhost:5000/getItemInterval", {
+      method: "POST",
+      body: JSON.stringify({
+        start,
+        end,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    const newItems = await response.json();
+    console.log(newItems);
+    setDayOne(newItems[newItems.length - 2]);
+    setDayTwo(newItems[newItems.length - 1]);
     setItems(newItems);
   }
 
@@ -197,7 +242,36 @@ function AnalyticsPage() {
     ],
   };
 
-  const options = {};
+  const dataLine = {
+    labels: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    datasets: [
+      {
+        label: "My First Dataset",
+        data: [65, 59, 80, 81, 56, 55, 40],
+        fill: false,
+        borderColor: "rgb(75, 192, 192)",
+        tension: 0.1,
+      },
+    ],
+  };
+
+  if (dayOne != "All") {
+    dayOne = format(new Date(dayOne), "MMM d, yyyy");
+    dayTwo = format(new Date(dayTwo), "MMM d, yyyy");
+  }
 
   return (
     <section className="relative w-full h-screen mx-auto">
@@ -295,7 +369,12 @@ function AnalyticsPage() {
                   </motion.button>
                 </li>
                 <li className="block m-0 padding-2.5 ml-2.5">
-                  <motion.button variants={itemVariants}>
+                  <motion.button
+                    onClick={() => {
+                      setShowModal(true);
+                    }}
+                    variants={itemVariants}
+                  >
                     Interval
                   </motion.button>
                 </li>
@@ -323,12 +402,41 @@ function AnalyticsPage() {
               </p>
             </div>
           </div>
-          <div className="row-span-2 col-span-2">
-            <Doughnut data={data} options={options} />
+          <div className="row-span-2 col-span-2 ">
+            <div className="flex items-center justify-center mt-2.5">
+              <h4 className="text-2xl font-bold">
+                {dayOne} - {dayTwo}
+              </h4>
+            </div>
+            <div className="relative h-24 flex items-center justify-center">
+              <Doughnut data={data} />
+            </div>
           </div>
           <div className="col-span-2">03</div>
         </div>
       </div>
+
+      <MyModal onClose={handleOnClose} visible={showModal}>
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Dates
+          </label>
+          <DateRangePicker
+            format="MM/dd/yyyy"
+            character=" – "
+            value={dateRange}
+            onChange={setDateRange}
+          />
+        </div>
+        <div className="mt-5 flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+          <button
+            onClick={handleTimeInterval}
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Submit
+          </button>
+        </div>
+      </MyModal>
     </section>
   );
 }
@@ -458,4 +566,13 @@ export default AnalyticsPage;
           <div className="row-span-2 col-span-2">02</div>
           <div className="col-span-2">03</div>
         </div>
+*/
+
+/*
+<DateRangePicker
+              format="MM/dd/yyyy"
+              character=" – "
+              value={dateRange}
+              onChange={setDateRange}
+            />
 */

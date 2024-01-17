@@ -103,7 +103,7 @@ function Register() {
                 Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="font-medium text-blue hover:underline"
+                  className="font-medium text-[color:blue] hover:underline"
                 >
                   Login here
                 </Link>

@@ -135,7 +135,7 @@ function Login() {
               Don't want to make an account?{" "}
               <button
                 onClick={handleGuest}
-                className="font-medium text-blue hover:underline"
+                className="font-medium text-[color:blue] hover:underline"
               >
                 Login as guest
               </button>

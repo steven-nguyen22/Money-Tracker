@@ -155,7 +155,7 @@ app.get("/getItemDay", async (req: Request, res: Response) => {
   }
 
   var todayDate =
-    today.getFullYear() + "-" + myMonth + "-" + myDay + "T00:00:00.000+00:00";
+    today.getFullYear() + "-" + myMonth + "-" + myDay + "T12:00:00.000+00:00";
 
   console.log(todayDate);
 
@@ -165,6 +165,7 @@ app.get("/getItemDay", async (req: Request, res: Response) => {
     author: decoded.id,
     date: todayDate,
   });
+  items.push(todayDate);
   res.json(items);
 });
 
@@ -174,14 +175,14 @@ app.get("/getItemWeek", async (req: Request, res: Response) => {
   console.log("testing week");
 
   var today = new Date();
-  var first = today.getDate() - today.getDay() - 1; // Sunday beginning of the week
+  var first = today.getDate() - today.getDay(); // Sunday beginning of the week
   var last = first + 6; // Saturday end of the week
 
   var firstDay = new Date(today.setDate(first));
   var lastDay = new Date(today.setDate(last));
 
-  firstDay.setUTCHours(0, 0, 0, 0);
-  lastDay.setUTCHours(0, 0, 0, 0);
+  firstDay.setUTCHours(8, 0, 0, 0);
+  lastDay.setUTCHours(14, 0, 0, 0);
 
   console.log(firstDay);
   console.log(lastDay);
@@ -192,6 +193,8 @@ app.get("/getItemWeek", async (req: Request, res: Response) => {
     author: decoded.id,
     date: { $gte: firstDay, $lte: lastDay },
   });
+  items.push(firstDay);
+  items.push(lastDay);
   res.json(items);
 });
 
@@ -204,8 +207,8 @@ app.get("/getItemMonth", async (req: Request, res: Response) => {
   var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
   var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-  firstDay.setUTCHours(0, 0, 0, 0);
-  lastDay.setUTCHours(0, 0, 0, 0);
+  firstDay.setUTCHours(8, 0, 0, 0);
+  lastDay.setUTCHours(13, 0, 0, 0);
 
   console.log(firstDay);
   console.log(lastDay);
@@ -216,6 +219,8 @@ app.get("/getItemMonth", async (req: Request, res: Response) => {
     author: decoded.id,
     date: { $gte: firstDay, $lte: lastDay },
   });
+  items.push(firstDay);
+  items.push(lastDay);
   res.json(items);
 });
 
@@ -228,8 +233,8 @@ app.get("/getItemYear", async (req: Request, res: Response) => {
   var firstDay = new Date(today.getFullYear(), 0, 1);
   var lastDay = new Date(today.getFullYear() + 1, 0, 0);
 
-  firstDay.setUTCHours(0, 0, 0, 0);
-  lastDay.setUTCHours(0, 0, 0, 0);
+  firstDay.setUTCHours(8, 0, 0, 0);
+  lastDay.setUTCHours(14, 0, 0, 0);
 
   console.log(firstDay);
   console.log(lastDay);
@@ -240,6 +245,33 @@ app.get("/getItemYear", async (req: Request, res: Response) => {
     author: decoded.id,
     date: { $gte: firstDay, $lte: lastDay },
   });
+  items.push(firstDay);
+  items.push(lastDay);
+  res.json(items);
+});
+
+//API endpoint for getting items by interval
+app.post("/getItemInterval", async (req: Request, res: Response) => {
+  const { token } = req.cookies;
+  console.log("testing interval");
+
+  let firstDay = new Date(req.body.start);
+  let lastDay = new Date(req.body.end);
+
+  firstDay.setUTCHours(8, 0, 0, 0);
+  lastDay.setUTCHours(14, 0, 0, 0);
+
+  console.log(firstDay);
+  console.log(lastDay);
+
+  var decoded = jwt.verify(token, secret);
+
+  const items = await Item.find({
+    author: decoded.id,
+    date: { $gte: firstDay, $lte: lastDay },
+  });
+  items.push(firstDay);
+  items.push(lastDay);
   res.json(items);
 });
 
