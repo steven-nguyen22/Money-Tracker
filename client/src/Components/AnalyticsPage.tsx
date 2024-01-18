@@ -1,13 +1,15 @@
 import Nav from "./Nav";
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
-import { motion, Variants } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Doughnut, Line } from "react-chartjs-2";
-import LineChart from "./lineChart";
+import { Doughnut } from "react-chartjs-2";
+import LineChart from "./LineChart";
 import { DateRangePicker } from "rsuite";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import { format } from "date-fns";
 import MyModal from "./MyModal";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
 
 ChartJs.register(ArcElement, Tooltip, Legend);
 
@@ -28,6 +30,9 @@ const itemVariants: Variants = {
   },
   closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
 };
+
+//allows for multiple charts on one page
+Chart.register(CategoryScale);
 
 function AnalyticsPage() {
   const [items, setItems] = useState<TItem[]>([]);
@@ -402,41 +407,53 @@ function AnalyticsPage() {
               </p>
             </div>
           </div>
-          <div className="row-span-2 col-span-2 ">
+          <div className="row-span-2 col-span-2">
             <div className="flex items-center justify-center mt-2.5">
               <h4 className="text-2xl font-bold">
                 {dayOne} - {dayTwo}
               </h4>
             </div>
-            <div className="relative h-24 flex items-center justify-center">
+
+            <div className="flex items-center justify-center relative max-h-md max-w-md">
               <Doughnut data={data} />
             </div>
           </div>
-          <div className="col-span-2">03</div>
+          <div className="col-span-2">
+            <div className="flex items-center justify-center">
+              <h4 className="text-2xl font-bold">Earnings for the year</h4>
+            </div>
+            <div className="items-center justify-center max-w-lg max-h-md bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <LineChart />
+            </div>
+          </div>
         </div>
       </div>
 
-      <MyModal onClose={handleOnClose} visible={showModal}>
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Dates
-          </label>
-          <DateRangePicker
-            format="MM/dd/yyyy"
-            character=" – "
-            value={dateRange}
-            onChange={setDateRange}
-          />
-        </div>
-        <div className="mt-5 flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button
-            onClick={handleTimeInterval}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Submit
-          </button>
-        </div>
-      </MyModal>
+      <AnimatePresence initial={false} mode="wait">
+        {showModal && (
+          <MyModal onClose={handleOnClose} visible={showModal}>
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Dates
+              </label>
+              <DateRangePicker
+                format="MM/dd/yyyy"
+                character=" – "
+                value={dateRange}
+                onChange={setDateRange}
+              />
+            </div>
+            <div className="mt-5 flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+              <button
+                onClick={handleTimeInterval}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Submit
+              </button>
+            </div>
+          </MyModal>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
@@ -575,4 +592,10 @@ export default AnalyticsPage;
               value={dateRange}
               onChange={setDateRange}
             />
+
+
+
+<div className="flex items-center justify-center relative max-h-md max-w-md">
+              <Doughnut data={data} />
+            </div>
 */

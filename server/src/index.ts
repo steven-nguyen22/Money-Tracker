@@ -208,7 +208,7 @@ app.get("/getItemMonth", async (req: Request, res: Response) => {
   var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
   firstDay.setUTCHours(8, 0, 0, 0);
-  lastDay.setUTCHours(13, 0, 0, 0);
+  lastDay.setUTCHours(14, 0, 0, 0);
 
   console.log(firstDay);
   console.log(lastDay);

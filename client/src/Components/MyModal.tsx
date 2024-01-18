@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 interface Props {
   visible: boolean;
   onClose: () => void;
@@ -5,9 +7,34 @@ interface Props {
 }
 
 function MyModal(props: Props) {
+  const dropIn = {
+    hidden: {
+      y: "-100vh",
+      opacity: 0,
+    },
+    visible: {
+      y: "0",
+      opacity: 1,
+      transition: {
+        duration: 0.1,
+        type: "spring",
+        damping: 25,
+        stiffness: 500,
+      },
+    },
+    exit: {
+      y: "100vh",
+      opacity: 0,
+    },
+  };
+
   if (!props.visible) return null;
   return (
-    <div
+    <motion.div
+      variants={dropIn}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
       className="fixed inset-0 bg-overlay bg-opacity-30 backdrop-blur-sm flex justify-center items-center"
       onClick={props.onClose}
     >
@@ -47,7 +74,7 @@ function MyModal(props: Props) {
 
         {props.children}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
