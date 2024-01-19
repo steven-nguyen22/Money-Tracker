@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import { CiMenuFries } from "react-icons/ci";
 import { UserContext } from "../UserContext";
+import { altLogo, hundred, logo, testLogo } from "../assets";
 
 function Nav() {
   const [click, setClick] = useState(false);
@@ -64,8 +65,11 @@ function Nav() {
     <nav className="bg-green3">
       <div className="h-10vh flex justify-between z-50 text-gray1 lg:py-5 px-20 py-4">
         <div className="flex items-center flex-1">
-          <Link className="text-4x1 font-bold" to="/">
-            Money Tracker
+          <Link className="flex" to="/">
+            <img src={hundred} alt="logo" className="w-11 h-9" />
+            <p className="ml-2 mt-1 text-[18px] font-bold cursor-pointer">
+              Budgetfy
+            </p>
           </Link>
         </div>
 

@@ -12,6 +12,7 @@ import { RiNetflixFill } from "react-icons/ri";
 import { MdMiscellaneousServices } from "react-icons/md";
 import { FcMoneyTransfer } from "react-icons/fc";
 import Nav from "./Nav";
+import { motion } from "framer-motion";
 
 type TItem = {
   name: string;
@@ -101,7 +102,12 @@ function CreatePost() {
   const currentItems = items.slice(firstPostIndex, lastPostIndex);
 
   return (
-    <div className="relative w-full h-screen mx-auto">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="relative w-full h-screen mx-auto"
+    >
       <Nav />
       <div className="mt-8 ml-10 grid lg:grid-cols-4 gap-10">
         {currentItems.map((items) => (
@@ -255,7 +261,7 @@ function CreatePost() {
           </form>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -2,7 +2,6 @@ import { useState } from "react";
 import Nav from "./Nav";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-
 import { logo } from "../assets";
 
 function Register() {
@@ -29,14 +28,18 @@ function Register() {
   }
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <div>
         <Nav />
       </div>
 
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-40 w-40" src={logo} alt="Your Company" />
+          <img className="mx-auto" src={logo} alt="Budgetfy" />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Register your account
           </h2>
@@ -108,7 +111,7 @@ function Register() {
           </form>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
