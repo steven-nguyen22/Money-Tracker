@@ -120,7 +120,7 @@ app.get("/getItem", async (req: Request, res: Response) => {
 
   var decoded = jwt.verify(token, secret);
 
-  const items = await Item.find({ author: decoded.id });
+  const items = await Item.find({ author: decoded.id }).sort({ date: 1 });
   res.json(items);
 });
 

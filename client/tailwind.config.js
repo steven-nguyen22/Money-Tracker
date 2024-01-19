@@ -27,6 +27,7 @@ export default {
       },
       height: {
         menuHeight: "290px",
+        bgHeight: "270px",
       },
     },
   },

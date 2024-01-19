@@ -23,7 +23,7 @@ function App() {
       {username && (
         <div className="h-screen bg-background1 bg-cover bg-no-repeat bg-center">
           <CreatePost />
-          <div className="h-60 bg-backgroundExtend"></div>
+          <div className="h-bgHeight bg-backgroundExtend"></div>
         </div>
       )}
       {!username && (

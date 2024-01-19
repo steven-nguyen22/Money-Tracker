@@ -37,7 +37,7 @@ function CreatePost() {
   async function handleCreateItem(e: React.FormEvent) {
     e.preventDefault();
     date = date + "T12:00:00.000+00:00";
-    const response = await fetch("http://localhost:5000/postItem", {
+    await fetch("http://localhost:5000/postItem", {
       method: "POST",
       body: JSON.stringify({
         name,
@@ -50,9 +50,18 @@ function CreatePost() {
       },
       credentials: "include",
     });
+    //allows items to refresh on screen with pagination
+    async function fetchItems() {
+      const response = await fetch("http://localhost:5000/getItem", {
+        credentials: "include",
+      });
+      const newItems = await response.json();
+      setItems(newItems);
+    }
+    fetchItems();
     //allows items to refresh on screen after adding without having to reload page
-    const item = await response.json();
-    setItems([...items, item]);
+    //const item = await response.json();
+    //setItems([...items, item]);
     setName("");
     setPrice("");
     setCategory("Food");
@@ -73,8 +82,18 @@ function CreatePost() {
     await fetch(`http://localhost:5000/deleteItem/${itemId}`, {
       method: "DELETE",
     });
-    //allows items to refresh on screen after deleting without having to reload page
-    items.filter((item) => item._id !== itemId);
+    //refreshing items after delete to work with pagination (refetching items)
+    async function fetchItems() {
+      const response = await fetch("http://localhost:5000/getItem", {
+        credentials: "include",
+      });
+      const newItems = await response.json();
+      setItems(newItems);
+    }
+    fetchItems();
+
+    //allows items to refresh on screen after deleting without having to reload page (called optimistic updates)
+    //items.filter((item) => item._id !== itemId);
   }
 
   const lastPostIndex = currentPage * postsPerPage;
