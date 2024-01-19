@@ -14,14 +14,19 @@ export default {
 
         backgroundExtend: "#346A4B",
         overlay: "#313131",
-        tbsgreen: "#004236",
-        indiankhaki: "#c49f84",
+        test: "#2d6a4f",
+        test1: "#40916c",
+        test2: "#74c69d",
+        test3: "#b7e4c7",
       },
       fontFamily: {
         display: "Oswald, ui-serif", // Adds a new `font-display` class
       },
       backgroundImage: {
         background1: "url('/src/assets/background1.svg')",
+      },
+      height: {
+        menuHeight: "290px",
       },
     },
   },

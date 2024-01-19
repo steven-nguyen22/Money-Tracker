@@ -42,6 +42,7 @@ function AnalyticsPage() {
   const handleOnClose = () => setShowModal(false);
   let [dayOne, setDayOne] = useState("All");
   let [dayTwo, setDayTwo] = useState("All");
+  var today = new Date();
 
   console.log("date range", dateRange);
 
@@ -282,7 +283,184 @@ function AnalyticsPage() {
     <section className="relative w-full h-screen mx-auto">
       <div className="bg-background1 bg-cover bg-no-repeat bg-center">
         <Nav />
-        <div className="w-full h-screen grid grid-rows-3 grid-flow-col gap-4">
+        <div className="w-full h-screen grid grid-rows-4 grid-flow-col gap-4">
+          <div className="row-span-2 ml-12">
+            <motion.nav
+              initial={false}
+              animate={isOpen ? "open" : "closed"}
+              className="h-full w-80 font-semibold"
+            >
+              <motion.button
+                className="bg-test rounded-xl p-8 text-left w-80 mb-2.5 mt-2.5 flex justify-between items-center"
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                Menu
+                <motion.div
+                  className="inline"
+                  variants={{
+                    open: { rotate: 180 },
+                    closed: { rotate: 0 },
+                  }}
+                  transition={{ duration: 0.2 }}
+                  style={{ originY: 0.55 }}
+                >
+                  <svg width="15" height="15" viewBox="0 0 20 20">
+                    <path d="M0 7 L 20 7 L 10 16" />
+                  </svg>
+                </motion.div>
+              </motion.button>
+              <motion.ul
+                className="h-menuHeight bg-gradient-to-b from-test1 via-test2 to-test3 flex flex-col gap-5"
+                variants={{
+                  open: {
+                    clipPath: "inset(0% 0% 0% 0% round 10px)",
+                    transition: {
+                      type: "spring",
+                      bounce: 0,
+                      duration: 0.7,
+                      delayChildren: 0.3,
+                      staggerChildren: 0.05,
+                    },
+                  },
+                  closed: {
+                    clipPath: "inset(10% 50% 90% 50% round 10px)",
+                    transition: {
+                      type: "spring",
+                      bounce: 0,
+                      duration: 0.3,
+                    },
+                  },
+                }}
+                style={{ pointerEvents: isOpen ? "auto" : "none" }}
+              >
+                <li className="block ml-2.5 mt-4">
+                  <motion.button
+                    onClick={handleTimeDay}
+                    variants={itemVariants}
+                  >
+                    Day
+                  </motion.button>
+                </li>
+                <li className="block ml-2.5">
+                  <motion.button
+                    onClick={handleTimeWeek}
+                    variants={itemVariants}
+                  >
+                    Week
+                  </motion.button>
+                </li>
+                <li className="block ml-2.5">
+                  <motion.button
+                    onClick={handleTimeMonth}
+                    variants={itemVariants}
+                  >
+                    Month
+                  </motion.button>
+                </li>
+                <li className="block ml-2.5">
+                  <motion.button
+                    onClick={handleTimeYear}
+                    variants={itemVariants}
+                  >
+                    Year
+                  </motion.button>
+                </li>
+                <li className="block ml-2.5">
+                  <motion.button
+                    onClick={handleTimeAll}
+                    variants={itemVariants}
+                  >
+                    All
+                  </motion.button>
+                </li>
+                <li className="block ml-2.5">
+                  <motion.button
+                    onClick={() => {
+                      setShowModal(true);
+                    }}
+                    variants={itemVariants}
+                  >
+                    Interval
+                  </motion.button>
+                </li>
+              </motion.ul>
+            </motion.nav>
+          </div>
+          <div className="row-span-2">
+            <div className="ml-12 py-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <p className="ml-2 mb-3 pt-2 font-normal ">
+                <label>Total Money Earned: </label>{" "}
+                <label className="text-[color:green]">
+                  ${moneyEarnedTotal}
+                </label>
+              </p>
+              <p className="ml-2 font-normal mb-2">
+                <label>Total Money Spent: </label>{" "}
+                <label className="text-[color:red]">${totalSpent}</label>
+              </p>
+              <hr className="mb-2 bg-black" />
+              <p className="ml-2 mb-3 font-normal ">
+                <label>Total Money Balance: </label>{" "}
+                <label className={color}>
+                  {negative}${totalBalance}
+                </label>
+              </p>
+            </div>
+          </div>
+
+          <div className="row-span-2 col-span-2 mt-2.5 mb-2.5">
+            <div className="mb-2.5">
+              <h4 className="text-2xl font-bold">
+                {dayOne} - {dayTwo}
+              </h4>
+            </div>
+
+            <Doughnut data={data} />
+          </div>
+
+          <div className="row-span-2 col-span-2 mt-4">
+            <h4 className="text-2xl font-bold mb-2.5">
+              Monthly earnings for {today.getFullYear()}
+            </h4>
+            <LineChart />
+          </div>
+        </div>
+      </div>
+
+      <AnimatePresence initial={false} mode="wait">
+        {showModal && (
+          <MyModal onClose={handleOnClose} visible={showModal}>
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Dates
+              </label>
+              <DateRangePicker
+                format="MM/dd/yyyy"
+                character=" – "
+                value={dateRange}
+                onChange={setDateRange}
+              />
+            </div>
+            <div className="mt-5 flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+              <button
+                onClick={handleTimeInterval}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Submit
+              </button>
+            </div>
+          </MyModal>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}
+
+export default AnalyticsPage;
+
+/*
+  <div className="w-full h-screen grid grid-rows-4 grid-flow-col gap-4">
           <div className="row-span-2 ml-12">
             <motion.nav
               initial={false}
@@ -386,7 +564,7 @@ function AnalyticsPage() {
               </motion.ul>
             </motion.nav>
           </div>
-          <div className="row-span-1">
+          <div className="row-span-2">
             <div className="ml-12 py-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
               <p className="ml-2 mb-3 pt-2 font-normal ">
                 <label>Total Money Earned: </label>{" "}
@@ -407,172 +585,25 @@ function AnalyticsPage() {
               </p>
             </div>
           </div>
+
           <div className="row-span-2 col-span-2">
             <div className="flex items-center justify-center mt-2.5">
               <h4 className="text-2xl font-bold">
                 {dayOne} - {dayTwo}
               </h4>
             </div>
-
-            <div className="flex items-center justify-center relative max-h-md max-w-md">
+            <div className="flex items-center justify-center h-full">
               <Doughnut data={data} />
             </div>
           </div>
-          <div className="col-span-2">
-            <div className="flex items-center justify-center">
+          <div className="row-span-2 col-span-2">
+            <div className="flex items-center justify-center mt-10">
               <h4 className="text-2xl font-bold">Earnings for the year</h4>
             </div>
-            <div className="items-center justify-center max-w-lg max-h-md bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div className="flex items-center justify-center h-full">
               <LineChart />
             </div>
           </div>
-        </div>
-      </div>
-
-      <AnimatePresence initial={false} mode="wait">
-        {showModal && (
-          <MyModal onClose={handleOnClose} visible={showModal}>
-            <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Dates
-              </label>
-              <DateRangePicker
-                format="MM/dd/yyyy"
-                character=" – "
-                value={dateRange}
-                onChange={setDateRange}
-              />
-            </div>
-            <div className="mt-5 flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-              <button
-                onClick={handleTimeInterval}
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Submit
-              </button>
-            </div>
-          </MyModal>
-        )}
-      </AnimatePresence>
-    </section>
-  );
-}
-
-export default AnalyticsPage;
-
-/*
-  <div className="w-full h-screen grid grid-cols-2">
-          <div>
-            <motion.nav
-              initial={false}
-              animate={isOpen ? "open" : "closed"}
-              className="w-80"
-            >
-              <motion.button
-                className="bg-purple-500 rounded-xl p-8 text-left w-80 mb-2.5 flex justify-between items-center"
-                whileTap={{ scale: 0.97 }}
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                Menu
-                <motion.div
-                  className="inline"
-                  variants={{
-                    open: { rotate: 180 },
-                    closed: { rotate: 0 },
-                  }}
-                  transition={{ duration: 0.2 }}
-                  style={{ originY: 0.55 }}
-                >
-                  <svg width="15" height="15" viewBox="0 0 20 20">
-                    <path d="M0 7 L 20 7 L 10 16" />
-                  </svg>
-                </motion.div>
-              </motion.button>
-              <motion.ul
-                className="bg-purple-500 flex flex-col gap-2.5"
-                variants={{
-                  open: {
-                    clipPath: "inset(0% 0% 0% 0% round 10px)",
-                    transition: {
-                      type: "spring",
-                      bounce: 0,
-                      duration: 0.7,
-                      delayChildren: 0.3,
-                      staggerChildren: 0.05,
-                    },
-                  },
-                  closed: {
-                    clipPath: "inset(10% 50% 90% 50% round 10px)",
-                    transition: {
-                      type: "spring",
-                      bounce: 0,
-                      duration: 0.3,
-                    },
-                  },
-                }}
-                style={{ pointerEvents: isOpen ? "auto" : "none" }}
-              >
-                <li className="bg-purple-500 block m-0 padding-2.5 ml-2.5">
-                  <motion.button
-                    onClick={handleTimeDay}
-                    variants={itemVariants}
-                  >
-                    Day
-                  </motion.button>
-                </li>
-                <li className="block m-0 padding-2.5 ml-2.5">
-                  <motion.button
-                    onClick={handleTimeWeek}
-                    variants={itemVariants}
-                  >
-                    Week
-                  </motion.button>
-                </li>
-                <li className="block m-0 padding-2.5 ml-2.5">
-                  <motion.button
-                    onClick={handleTimeMonth}
-                    variants={itemVariants}
-                  >
-                    Month
-                  </motion.button>
-                </li>
-                <li className="block m-0 padding-2.5 ml-2.5">
-                  <motion.button
-                    onClick={handleTimeYear}
-                    variants={itemVariants}
-                  >
-                    Year
-                  </motion.button>
-                </li>
-                <li className="block m-0 padding-2.5 ml-2.5">
-                  <motion.button
-                    onClick={handleTimeAll}
-                    variants={itemVariants}
-                  >
-                    All
-                  </motion.button>
-                </li>
-                <li className="block m-0 padding-2.5 ml-2.5">
-                  <motion.button variants={itemVariants}>
-                    Interval
-                  </motion.button>
-                </li>
-              </motion.ul>
-            </motion.nav>
-          </div>
-          <div className="col-span-1">
-            <Doughnut
-              data={data}
-              options={options}
-              className="max-w-lg max-h-lg"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label>Money earned: {moneyEarnedTotal}</label>
-          <label>Money spent: {totalSpent}</label>
-          <label>Money balance: {totalBalance}</label>
         </div>
 */
 

@@ -168,7 +168,7 @@ function LineChart() {
     ],
     datasets: [
       {
-        label: "My First Dataset",
+        label: "Earnings by month",
         data: [
           janTotal,
           febTotal,
@@ -190,7 +190,7 @@ function LineChart() {
     ],
   };
   return (
-    <div>
+    <div className="max-w-lg max-h-md bg-white border border-gray-200 rounded-lg shadow">
       <Line data={dataLine} />
     </div>
   );
