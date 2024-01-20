@@ -79,26 +79,3 @@ function MyModal(props: Props) {
 }
 
 export default MyModal;
-
-/*
-<div
-      className="fixed inset-0 bg-overlay bg-opacity-30 backdrop-blur-sm flex justify-center items-center"
-      onClick={props.onClose}
-    >
-      <div
-        className={`bg-white rounded-lg shadow p-6 transition-all max-w-md ${
-          props.visible ? "scale-100 opacity-100" : "scale-110 opacity-0"
-        }`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <p>My Modal</p>
-        <button
-          className="absolute top-2 right-2 py-1 px-2 border border-neutral-200 rounded-md text-gray-400 bg-white hover:bg-gray-500 hover:text-gray-600"
-          onClick={props.onClose}
-        >
-          X
-        </button>
-        {props.children}
-      </div>
-    </div>
-*/

@@ -25,8 +25,6 @@ function LineChart() {
     fetchItems();
   }, []);
 
-  //set UTC 14 for evry other month to replicate starting a new month
-
   var today = new Date();
   var firstJan = new Date(today.getFullYear(), 0, 1);
   var firstFeb = new Date(today.getFullYear(), 1, 0);
@@ -54,20 +52,6 @@ function LineChart() {
   firstNov.setUTCHours(14, 0, 0, 0);
   firstDec.setUTCHours(14, 0, 0, 0);
   lastDayOfYear.setUTCHours(14, 0, 0, 0);
-
-  console.log("first jan date: ", firstJan);
-  console.log("first feb date: ", firstFeb);
-  console.log("first march date: ", firstMarch);
-  console.log("first april date: ", firstApril);
-  console.log("first may date: ", firstMay);
-  console.log("first june date: ", firstJune);
-  console.log("first july date: ", firstJuly);
-  console.log("first aug date: ", firstAug);
-  console.log("first sept date: ", firstSept);
-  console.log("first oct date: ", firstOct);
-  console.log("first nov date: ", firstNov);
-  console.log("first dec date: ", firstDec);
-  console.log("first last day date: ", lastDayOfYear);
 
   let janTotal = 0;
   let febTotal = 0;
@@ -146,10 +130,6 @@ function LineChart() {
       } else decTotal -= items.price;
     }
   });
-
-  console.log("janTotal = ", janTotal);
-  console.log("febTotal = ", febTotal);
-  console.log("marchTotal = ", marchTotal);
 
   const dataLine = {
     labels: [

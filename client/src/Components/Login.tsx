@@ -10,6 +10,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
   const { setUserInfo } = useContext(UserContext);
+  const [error, setError] = useState(false);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -30,7 +31,8 @@ function Login() {
         setRedirect(true);
       });
     } else {
-      alert("Wrong credentials");
+      //alert("Wrong credentials");
+      setError(true);
     }
   }
 
@@ -132,6 +134,7 @@ function Login() {
                 Login
               </motion.button>
             </div>
+
             <p className="text-sm font-light text-black">
               Don't want to make an account?{" "}
               <button
@@ -141,6 +144,12 @@ function Login() {
                 Login as guest
               </button>
             </p>
+
+            {error && (
+              <span className="mt-3 text-sm text-red-500">
+                Error, wrong credentials.
+              </span>
+            )}
           </form>
         </div>
       </div>

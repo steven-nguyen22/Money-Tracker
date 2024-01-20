@@ -68,7 +68,7 @@ function Nav() {
           <Link className="flex" to="/">
             <img src={hundred} alt="logo" className="w-11 h-9" />
             <p className="ml-2 mt-1 text-[18px] font-bold cursor-pointer">
-              Budgetfy
+              | Budgetfy
             </p>
           </Link>
         </div>
