@@ -35,14 +35,14 @@ const itemVariants: Variants = {
 Chart.register(CategoryScale);
 
 function AnalyticsPage() {
+  var today = new Date();
   const [items, setItems] = useState<TItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [dateRange, setDateRange] = useState();
+  const [dateRange, setDateRange] = useState<[Date?, Date?]>([]);
   const [showModal, setShowModal] = useState(false);
   const handleOnClose = () => setShowModal(false);
   let [dayOne, setDayOne] = useState("All");
   let [dayTwo, setDayTwo] = useState("All");
-  var today = new Date();
 
   console.log("date range", dateRange);
 
@@ -119,6 +119,7 @@ function AnalyticsPage() {
 
   async function handleTimeInterval(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
+
     let start = dateRange[0];
     let end = dateRange[1];
 
@@ -248,36 +249,22 @@ function AnalyticsPage() {
     ],
   };
 
-  const dataLine = {
-    labels: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ],
-    datasets: [
-      {
-        label: "My First Dataset",
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-      },
-    ],
-  };
-
   if (dayOne != "All") {
     dayOne = format(new Date(dayOne), "MMM d, yyyy");
     dayTwo = format(new Date(dayTwo), "MMM d, yyyy");
   }
+
+  const handleDateChange = (
+    value: [Date?, Date?] | null
+    //event: SyntheticEvent<Element, Event>
+  ) => {
+    if (value) {
+      setDateRange([value[0], value[1]]);
+    } else {
+      // Handle null case if needed
+      setDateRange([]);
+    }
+  };
 
   return (
     <section className="relative w-full h-screen mx-auto">
@@ -438,8 +425,7 @@ function AnalyticsPage() {
               <DateRangePicker
                 format="MM/dd/yyyy"
                 character=" – "
-                value={dateRange}
-                onChange={setDateRange}
+                onChange={handleDateChange}
               />
             </div>
             <div className="mt-5 flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">

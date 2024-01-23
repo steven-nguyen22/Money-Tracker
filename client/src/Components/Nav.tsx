@@ -3,7 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import { CiMenuFries } from "react-icons/ci";
 import { UserContext } from "../UserContext";
-import { altLogo, hundred, logo, testLogo } from "../assets";
+import { hundred } from "../assets";
 
 function Nav() {
   const [click, setClick] = useState(false);
@@ -30,7 +30,11 @@ function Nav() {
       credentials: "include",
       method: "POST",
     });
-    setUserInfo(null);
+    const logout = {
+      id: "",
+      username: "",
+    };
+    setUserInfo(logout);
     setRedirect(true);
   }
 

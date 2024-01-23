@@ -33,7 +33,7 @@ function CreatePost() {
   const [items, setItems] = useState<TItem[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(8);
+  const postsPerPage = 8;
 
   async function handleCreateItem(e: React.FormEvent) {
     e.preventDefault();

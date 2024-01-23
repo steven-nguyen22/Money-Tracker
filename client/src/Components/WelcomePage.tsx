@@ -44,7 +44,7 @@ function WelcomePage() {
     const isInView = useInView(ref, { amount: 0.5, once });
 
     useEffect(() => {
-      let timeout: NodeJS.Timeout;
+      let timeout: any;
       const show = () => {
         controls.start("visible");
         if (repeatDelay) {
