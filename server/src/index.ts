@@ -21,13 +21,7 @@ const secret = "asjsjddhffeheheiw2939";
 const PORT = 5000;
 const app = express();
 
-app.use(
-  cors({
-    credentials: true,
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
