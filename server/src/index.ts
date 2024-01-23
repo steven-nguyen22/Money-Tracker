@@ -21,7 +21,12 @@ const secret = "asjsjddhffeheheiw2939";
 const PORT = 5000;
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "https://stevens-budgetfy.netlify.app",
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
