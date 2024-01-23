@@ -14,7 +14,7 @@ function Login() {
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/login", {
+    const response = await fetch("https://budgetfy.onrender.com/login", {
       method: "POST",
       body: JSON.stringify({
         username,
@@ -38,7 +38,7 @@ function Login() {
 
   async function handleGuest(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/login", {
+    const response = await fetch("https://budgetfy.onrender.com/login", {
       method: "POST",
       body: JSON.stringify({
         username: "1",

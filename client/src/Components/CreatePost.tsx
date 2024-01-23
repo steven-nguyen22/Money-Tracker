@@ -38,7 +38,7 @@ function CreatePost() {
   async function handleCreateItem(e: React.FormEvent) {
     e.preventDefault();
     date = date + "T12:00:00.000+00:00";
-    await fetch("http://localhost:5000/postItem", {
+    await fetch("https://budgetfy.onrender.com/postItem", {
       method: "POST",
       body: JSON.stringify({
         name,
@@ -53,7 +53,7 @@ function CreatePost() {
     });
     //allows items to refresh on screen with pagination
     async function fetchItems() {
-      const response = await fetch("http://localhost:5000/getItem", {
+      const response = await fetch("https://budgetfy.onrender.com/getItem", {
         credentials: "include",
       });
       const newItems = await response.json();
@@ -70,7 +70,7 @@ function CreatePost() {
 
   useEffect(() => {
     async function fetchItems() {
-      const response = await fetch("http://localhost:5000/getItem", {
+      const response = await fetch("https://budgetfy.onrender.com/getItem", {
         credentials: "include",
       });
       const newItems = await response.json();
@@ -80,12 +80,12 @@ function CreatePost() {
   }, []);
 
   async function handleDeleteItem(itemId: string) {
-    await fetch(`http://localhost:5000/deleteItem/${itemId}`, {
+    await fetch(`https://budgetfy.onrender.com/deleteItem/${itemId}`, {
       method: "DELETE",
     });
     //refreshing items after delete to work with pagination (refetching items)
     async function fetchItems() {
-      const response = await fetch("http://localhost:5000/getItem", {
+      const response = await fetch("https://budgetfy.onrender.com/getItem", {
         credentials: "include",
       });
       const newItems = await response.json();

@@ -16,7 +16,7 @@ function Nav() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/profile", {
+    fetch("https://budgetfy.onrender.com/profile", {
       credentials: "include",
     }).then((response) => {
       response.json().then((userInfo) => {
@@ -26,7 +26,7 @@ function Nav() {
   }, []);
 
   function logout() {
-    fetch("http://localhost:5000/logout", {
+    fetch("https://budgetfy.onrender.com/logout", {
       credentials: "include",
       method: "POST",
     });

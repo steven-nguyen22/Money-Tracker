@@ -16,7 +16,7 @@ function LineChart() {
 
   useEffect(() => {
     async function fetchItems() {
-      const response = await fetch("http://localhost:5000/getItem", {
+      const response = await fetch("https://budgetfy.onrender.com/getItem", {
         credentials: "include",
       });
       const newItems = await response.json();

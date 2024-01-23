@@ -7,7 +7,7 @@ function App() {
   const { userInfo, setUserInfo } = useContext(UserContext);
 
   useEffect(() => {
-    fetch("http://localhost:5000/profile", {
+    fetch("https://budgetfy.onrender.com/profile", {
       credentials: "include",
     }).then((response) => {
       response.json().then((userInfo) => {

@@ -48,7 +48,7 @@ function AnalyticsPage() {
 
   useEffect(() => {
     async function fetchItems() {
-      const response = await fetch("http://localhost:5000/getItem", {
+      const response = await fetch("https://budgetfy.onrender.com/getItem", {
         credentials: "include",
       });
       const newItems = await response.json();
@@ -59,7 +59,7 @@ function AnalyticsPage() {
 
   async function handleTimeDay(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/getItemDay", {
+    const response = await fetch("https://budgetfy.onrender.com/getItemDay", {
       credentials: "include",
     });
     const newItems = await response.json();
@@ -71,7 +71,7 @@ function AnalyticsPage() {
 
   async function handleTimeWeek(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/getItemWeek", {
+    const response = await fetch("https://budgetfy.onrender.com/getItemWeek", {
       credentials: "include",
     });
     const newItems = await response.json();
@@ -83,7 +83,7 @@ function AnalyticsPage() {
 
   async function handleTimeMonth(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/getItemMonth", {
+    const response = await fetch("https://budgetfy.onrender.com/getItemMonth", {
       credentials: "include",
     });
     const newItems = await response.json();
@@ -95,7 +95,7 @@ function AnalyticsPage() {
 
   async function handleTimeYear(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/getItemYear", {
+    const response = await fetch("https://budgetfy.onrender.com/getItemYear", {
       credentials: "include",
     });
     const newItems = await response.json();
@@ -107,7 +107,7 @@ function AnalyticsPage() {
 
   async function handleTimeAll(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/getItem", {
+    const response = await fetch("https://budgetfy.onrender.com/getItem", {
       credentials: "include",
     });
     const newItems = await response.json();
@@ -123,17 +123,20 @@ function AnalyticsPage() {
     let start = dateRange[0];
     let end = dateRange[1];
 
-    const response = await fetch("http://localhost:5000/getItemInterval", {
-      method: "POST",
-      body: JSON.stringify({
-        start,
-        end,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
+    const response = await fetch(
+      "https://budgetfy.onrender.com/getItemInterval",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          start,
+          end,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
     const newItems = await response.json();
     console.log(newItems);
     setDayOne(newItems[newItems.length - 2]);
