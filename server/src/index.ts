@@ -278,5 +278,5 @@ app.post("/getItemInterval", async (req: Request, res: Response) => {
 //connecting to mongodb cluster
 mongoose.connect(process.env.MONGO_URL!).then(() => {
   console.log(`listening on port ${PORT}`);
-  app.listen(5000);
+  app.listen("https://budgetfy.onrender.com");
 });
