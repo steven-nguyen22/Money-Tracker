@@ -16,7 +16,7 @@ const salt = bcrypt.genSaltSync(10);
 const cookieParser = require("cookie-parser");
 
 const jwt = require("jsonwebtoken");
-const secret = "asjsjddhffeheheiw2939";
+//secret = "asjsjddhffeheheiw2939";
 
 const PORT = 5000;
 const app = express();
@@ -54,7 +54,7 @@ app.post("/login", async (req: Request, res: Response) => {
   if (passOk) {
     jwt.sign(
       { username, id: userDoc?._id },
-      secret,
+      process.env.JWT_SECRET,
       {},
       (err: Error, token: Response) => {
         if (err) throw err;
@@ -72,10 +72,15 @@ app.post("/login", async (req: Request, res: Response) => {
 //API endpoint for checking login
 app.get("/profile", (req: Request, res: Response) => {
   const { token } = req.cookies;
-  jwt.verify(token, secret, {}, (err: Error, info: Response) => {
-    if (err) throw err;
-    res.json(info);
-  });
+  jwt.verify(
+    token,
+    process.env.JWT_SECRET,
+    {},
+    (err: Error, info: Response) => {
+      if (err) throw err;
+      res.json(info);
+    }
+  );
 });
 
 //API endpoint for logging out
@@ -89,36 +94,41 @@ app.post("/postItem", async (req: Request, res: Response) => {
 
   const { token } = req.cookies;
 
-  var decoded = jwt.verify(token, secret);
+  var decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   console.log(decoded.id);
 
-  jwt.verify(token, secret, {}, async (err: Error, info: Response) => {
-    if (err) throw err;
-    console.log(info);
+  jwt.verify(
+    token,
+    process.env.JWT_SECRET,
+    {},
+    async (err: Error, info: Response) => {
+      if (err) throw err;
+      console.log(info);
 
-    const newItem = new Item({
-      name: req.body.name,
-      price: req.body.price,
-      category: req.body.category,
-      author: decoded.id,
-      authorName: decoded.username,
-      date: req.body.date,
-    });
-    try {
-      const createdItem = await newItem.save();
-      res.json(createdItem);
-    } catch (e) {
-      res.status(400).json(e);
+      const newItem = new Item({
+        name: req.body.name,
+        price: req.body.price,
+        category: req.body.category,
+        author: decoded.id,
+        authorName: decoded.username,
+        date: req.body.date,
+      });
+      try {
+        const createdItem = await newItem.save();
+        res.json(createdItem);
+      } catch (e) {
+        res.status(400).json(e);
+      }
     }
-  });
+  );
 });
 
 //API endpoint for getting items
 app.get("/getItem", async (req: Request, res: Response) => {
   const { token } = req.cookies;
 
-  var decoded = jwt.verify(token, secret);
+  var decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   const items = await Item.find({ author: decoded.id }).sort({ date: 1 });
   res.json(items);
@@ -159,7 +169,7 @@ app.get("/getItemDay", async (req: Request, res: Response) => {
 
   console.log(todayDate);
 
-  var decoded = jwt.verify(token, secret);
+  var decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   const items = await Item.find({
     author: decoded.id,
@@ -187,7 +197,7 @@ app.get("/getItemWeek", async (req: Request, res: Response) => {
   console.log(firstDay);
   console.log(lastDay);
 
-  var decoded = jwt.verify(token, secret);
+  var decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   const items = await Item.find({
     author: decoded.id,
@@ -213,7 +223,7 @@ app.get("/getItemMonth", async (req: Request, res: Response) => {
   console.log(firstDay);
   console.log(lastDay);
 
-  var decoded = jwt.verify(token, secret);
+  var decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   const items = await Item.find({
     author: decoded.id,
@@ -239,7 +249,7 @@ app.get("/getItemYear", async (req: Request, res: Response) => {
   console.log(firstDay);
   console.log(lastDay);
 
-  var decoded = jwt.verify(token, secret);
+  var decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   const items = await Item.find({
     author: decoded.id,
@@ -264,7 +274,7 @@ app.post("/getItemInterval", async (req: Request, res: Response) => {
   console.log(firstDay);
   console.log(lastDay);
 
-  var decoded = jwt.verify(token, secret);
+  var decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   const items = await Item.find({
     author: decoded.id,
@@ -278,5 +288,5 @@ app.post("/getItemInterval", async (req: Request, res: Response) => {
 //connecting to mongodb cluster
 mongoose.connect(process.env.MONGO_URL!).then(() => {
   console.log(`listening on port ${PORT}`);
-  app.listen("https://budgetfy.onrender.com");
+  app.listen(5000);
 });
