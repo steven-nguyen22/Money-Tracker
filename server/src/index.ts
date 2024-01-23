@@ -24,7 +24,8 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "https://stevens-budgetfy.netlify.app",
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
 app.use(express.json());
