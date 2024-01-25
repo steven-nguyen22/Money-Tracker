@@ -27,6 +27,7 @@ app.use(
     origin: "https://stevens-budgetfy.netlify.app",
   })
 );
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -52,10 +53,6 @@ app.post("/login", async (req: Request, res: Response) => {
   const userDoc = await User.findOne({ username });
   const passOk = bcrypt.compareSync(password, userDoc?.password);
 
-  const cookieOptions = {
-    domain: "https://stevens-budgetfy.netlify.app",
-  };
-
   if (passOk) {
     jwt.sign(
       { username, id: userDoc?._id },
@@ -63,8 +60,7 @@ app.post("/login", async (req: Request, res: Response) => {
       {},
       (err: Error, token: Response) => {
         if (err) throw err;
-        const temp = res.cookie("token", token, cookieOptions);
-        temp.json({
+        res.cookie("token", token).json({
           id: userDoc?._id,
           username,
         });
