@@ -210,6 +210,11 @@ function AnalyticsPage() {
     color = "text-[color:red]";
   }
 
+  totalSpent = Math.round((totalSpent + Number.EPSILON) * 100) / 100;
+  totalBalance = Math.round((totalBalance + Number.EPSILON) * 100) / 100;
+  moneyEarnedTotal =
+    Math.round((moneyEarnedTotal + Number.EPSILON) * 100) / 100;
+
   const data = {
     labels: [
       "Food",
