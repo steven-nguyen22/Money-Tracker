@@ -51,6 +51,11 @@ app.post("/login", async (req: Request, res: Response) => {
   const { username, password } = req.body;
   const userDoc = await User.findOne({ username });
   const passOk = bcrypt.compareSync(password, userDoc?.password);
+
+  const cookieOptions = {
+    domain: "https://stevens-budgetfy.netlify.app",
+  };
+
   if (passOk) {
     jwt.sign(
       { username, id: userDoc?._id },
@@ -58,7 +63,8 @@ app.post("/login", async (req: Request, res: Response) => {
       {},
       (err: Error, token: Response) => {
         if (err) throw err;
-        res.cookie("token", token).json({
+        const temp = res.cookie("token", token, cookieOptions);
+        temp.json({
           id: userDoc?._id,
           username,
         });
