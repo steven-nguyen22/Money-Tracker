@@ -7,6 +7,7 @@ _Frontend is hosted on a free Netlify server. Backend is hosted on Render._
 
 ## Docker Setup (alternative) ##
 
+    Docker Hub Repository: https://hub.docker.com/repository/docker/stevennguyen22/budgetfy/general
     Have Docker installed 
     Copy the compose.yml file
     In terminal run: 
