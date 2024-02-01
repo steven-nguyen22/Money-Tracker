@@ -24,10 +24,12 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "https://stevens-budgetfy.netlify.app",
+    origin: [
+      "https://stevens-budgetfy.netlify.app",
+      "https://stevens-budgetfy.onrender.com",
+    ],
   })
 );
-app.set("trust proxy", 1);
 app.use(express.json());
 app.use(cookieParser());
 
