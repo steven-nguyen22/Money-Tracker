@@ -59,10 +59,15 @@ app.post("/login", async (req: Request, res: Response) => {
       {},
       (err: Error, token: Response) => {
         if (err) throw err;
-        res.cookie("token", token).json({
-          id: userDoc?._id,
-          username,
-        });
+        res
+          .cookie("token", token, {
+            secure: true,
+            sameSite: "none",
+          })
+          .json({
+            id: userDoc?._id,
+            username,
+          });
       }
     );
   } else {
