@@ -2,8 +2,8 @@
 
 A budgeting app that allows for a simple and quick way to remember the items you bought throughout your day-to-day life. Keep track of your finances throughout the year and see what categories your spending habits lean towards.
 
-## <a href="https://stevens-budgetfy.netlify.app/"> Deployed on Netlify </a>
-_Frontend is hosted on a free Netlify server. Backend is hosted on Render._
+## <a href="https://stevens-budgetfy.onrender.com"> Deployed on Render </a>
+_Frontend and Backend are hosted on Render._
 
 ## Docker Setup (alternative) ##
 
